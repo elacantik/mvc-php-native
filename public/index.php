@@ -1,14 +1,13 @@
 <?php
-
-require_once __DIR__ . '/../config/database.php';
-require_once __DIR__ . '/../app/models/Mahasiswa.php';
-require_once __DIR__ . '/../app/controllers/MahasiswaController.php';
+require '../config/database.php';
+require '../app/models/Mahasiswa.php';
+require '../app/controllers/MahasiswaController.php';
 
 $db = (new Database())->connect();
 $model = new Mahasiswa($db);
 $controller = new MahasiswaController($model);
 
-$page   = $_GET['page'] ?? 'mahasiswa';
+$page = $_GET['page'] ?? 'mahasiswa';
 $action = $_GET['action'] ?? 'index';
 
 if ($page !== 'mahasiswa') {
@@ -17,14 +16,15 @@ if ($page !== 'mahasiswa') {
 }
 
 match ($action) {
-    'index'  => $controller->index(),
+    'index' => $controller->index(),
     'create' => $controller->create(),
-    'store'  => $controller->store(),
-    'edit'   => $controller->edit(),
+    'store' => $controller->store(),
+    'edit' => $controller->edit(),
     'update' => $controller->update(),
     'delete' => $controller->delete(),
-    default  => (function () {
+    default => (function () {
         http_response_code(404);
         exit('Action tidak ditemukan.');
     })()
 };
+?>
